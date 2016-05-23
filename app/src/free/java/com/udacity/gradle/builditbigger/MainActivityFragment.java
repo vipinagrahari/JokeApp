@@ -1,19 +1,23 @@
 package com.udacity.gradle.builditbigger;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.www.jokeview.JokeActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+    InterstitialAd mInterstitialAd;
 
     public MainActivityFragment() {
     }
@@ -33,4 +37,14 @@ public class MainActivityFragment extends Fragment {
         mAdView.loadAd(adRequest);
         return root;
     }
+
+    public void showJoke(String joke) {
+        Intent intent = new Intent(getActivity(), JokeActivity.class);
+        intent.putExtra("joke", joke);
+        startActivity(intent);
+
+
+    }
+
+
 }

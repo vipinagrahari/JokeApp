@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.udacity.gradle.builditbigger"
         minSdkVersion 16
@@ -21,6 +20,14 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    productFlavors {
+        paid {
+            applicationId 'com.udacity.gradle.builditbigger.paid'
+        }
+        free {
+            applicationId 'com.udacity.gradle.builditbigger.free'
+        }
+    }
 }
 
 dependencies {
@@ -29,6 +36,6 @@ dependencies {
     compile project(':javajokes')
     compile project(':jokeview')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
+    freeCompile 'com.google.android.gms:play-services-ads:8.4.0'
     compile project(path: ':jokeserver', configuration: 'android-endpoints')
 }

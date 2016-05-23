@@ -1,34 +1,24 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v4.util.Pair;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.example.Joker;
-import com.example.www.jokeview.JokeActivity;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-
-import java.io.IOException;
-
-import io.github.vipinagrahari.jokeapp.backend.myApi.MyApi;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements EndpointsAsyncTask.JokeLoadListener {
+
+    ContentLoadingProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ContentLoadingProgressBar) findViewById(R.id.progress_spinner);
+
+
     }
 
 
@@ -45,7 +35,6 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -54,17 +43,23 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke1(View view){
-        Intent intent=new Intent(MainActivity.this, JokeActivity.class);
-        intent.putExtra("joke",new Joker().getJoke());
-        startActivity(intent);
-    }
+
     public void tellJoke(View v){
 
-        new EndpointsAsyncTask().execute(MainActivity.this);
 
+        EndpointsAsyncTask ept = new EndpointsAsyncTask();
+        ept.execute(MainActivity.this);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
 
+    @Override
+    public void onJokeLoaded(String joke) {
+        progressBar.setVisibility(View.GONE);
+        MainActivityFragment fragment = (MainActivityFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.showJoke(joke);
+
+    }
 
 }

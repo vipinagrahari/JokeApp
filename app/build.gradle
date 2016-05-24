@@ -39,3 +39,8 @@ dependencies {
     freeCompile 'com.google.android.gms:play-services-ads:8.4.0'
     compile project(path: ':jokeserver', configuration: 'android-endpoints')
 }
+
+task testServer {
+
+
+}

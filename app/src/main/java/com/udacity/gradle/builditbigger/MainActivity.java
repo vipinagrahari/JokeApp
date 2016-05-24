@@ -18,7 +18,6 @@ public class MainActivity extends ActionBarActivity implements EndpointsAsyncTas
         setContentView(R.layout.activity_main);
         progressBar = (ContentLoadingProgressBar) findViewById(R.id.progress_spinner);
 
-
     }
 
 

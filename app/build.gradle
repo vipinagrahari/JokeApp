@@ -36,9 +36,11 @@ dependencies {
     compile project(':javajokes')
     compile project(':jokeview')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    freeCompile 'com.google.android.gms:play-services-ads:8.4.0'
+    freeCompile 'com.google.firebase:firebase-ads:9.0.0'
     compile project(path: ':jokeserver', configuration: 'android-endpoints')
 }
+apply plugin: 'com.google.gms.google-services'
+
 
 task testServer {
 

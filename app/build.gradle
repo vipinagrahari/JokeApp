@@ -9,7 +9,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
@@ -30,6 +30,27 @@ android {
     }
 }
 
+
+task runAppEngine() {
+    dependsOn ":jokeserver:appengineRun"
+
+    project(":jokeserver").afterEvaluate { backend ->
+        backend.extensions.appengine.daemon = true
+    }
+}
+task runTests{
+    dependsOn ":app:connectedCheck"
+
+}
+runTests.mustRunAfter runAppEngine
+
+
+task testTask{
+dependsOn runAppEngine,runTests
+}
+
+testTask.finalizedBy ":jokeserver:appengineStop"
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Added for AdMob
@@ -38,11 +59,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     freeCompile 'com.google.firebase:firebase-ads:9.0.0'
     compile project(path: ':jokeserver', configuration: 'android-endpoints')
+    compile 'com.android.support:multidex:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
 
 
-task testServer {
-
-
-}

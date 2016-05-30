@@ -20,6 +20,11 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     JokeLoadListener jokeLoadListener;
     private Context context;
 
+    public EndpointsAsyncTask setListener(JokeLoadListener listener) {
+        this.jokeLoadListener = listener;
+        return this;
+    }
+
     @Override
     protected String doInBackground(Context... params) {
         if(myApiService == null) {  // Only do this once
@@ -41,8 +46,6 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
         }
 
         context = params[0];
-        jokeLoadListener = (JokeLoadListener) context;
-
 
         try {
             return myApiService.sayHi().execute().getData();
@@ -53,12 +56,11 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        jokeLoadListener = (JokeLoadListener) context;
         jokeLoadListener.onJokeLoaded(result);
     }
 
-    void showInterAd() {
 
-    }
 
     public interface JokeLoadListener {
         void onJokeLoaded(String joke);
